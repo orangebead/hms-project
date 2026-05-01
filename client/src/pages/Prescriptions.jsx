@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BASE_URL from '../api';
 
 export default function Prescriptions() {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -9,20 +10,20 @@ export default function Prescriptions() {
   const [form, setForm] = useState({ Patient_ID: '', Staff_ID: '', Inventory_ID: '', Quantity: '', Presc_Date: '' });
 
   const fetchAll = () => {
-    fetch('http://127.0.0.1:3001/api/prescriptions')
+    fetch(`${BASE_URL}/api/prescriptions`)
       .then(res => res.json()).then(setPrescriptions);
-    fetch('http://127.0.0.1:3001/api/patients')
+    fetch(`${BASE_URL}/api/patients`)
       .then(res => res.json()).then(setPatients);
-    fetch('http://127.0.0.1:3001/api/staff')
+    fetch(`${BASE_URL}/api/staff`)
       .then(res => res.json()).then(setStaff);
-    fetch('http://127.0.0.1:3001/api/inventory')
+    fetch(`${BASE_URL}/api/inventory`)
       .then(res => res.json()).then(setInventory);
   };
 
   useEffect(() => { fetchAll(); }, []);
 
   const handleSubmit = async () => {
-    const res = await fetch('http://127.0.0.1:3001/api/prescriptions', {
+    const res = await fetch(`${BASE_URL}/api/prescriptions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
@@ -38,7 +39,7 @@ export default function Prescriptions() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this prescription?')) return;
-    await fetch(`http://127.0.0.1:3001/api/prescriptions/${id}`, { method: 'DELETE' });
+    await fetch(`${BASE_URL}/api/prescriptions/${id}`, { method: 'DELETE' });
     fetchAll();
   };
 

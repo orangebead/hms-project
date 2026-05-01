@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BASE_URL from '../api';
 
 export default function Patients() {
   const [patients, setPatients] = useState([]);
@@ -7,7 +8,7 @@ export default function Patients() {
   const [editingId, setEditingId] = useState(null);
 
   const fetchPatients = () => {
-    fetch('http://127.0.0.1:3001/api/patients')
+    fetch(`${BASE_URL}/api/patients`)
       .then(res => res.json())
       .then(data => setPatients(data));
   };
@@ -16,8 +17,8 @@ export default function Patients() {
 
   const handleSubmit = async () => {
     const url = editingId
-      ? `http://127.0.0.1:3001/api/patients/${editingId}`
-      : 'http://127.0.0.1:3001/api/patients';
+      ? `${BASE_URL}/api/patients/${editingId}`
+      : `${BASE_URL}/api/patients`;
     const method = editingId ? 'PUT' : 'POST';
 
     const res = await fetch(url, {
@@ -49,7 +50,7 @@ export default function Patients() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this patient?')) return;
-    const res = await fetch(`http://127.0.0.1:3001/api/patients/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/patients/${id}`, {
       method: 'DELETE',
     });
     if (res.ok) fetchPatients();

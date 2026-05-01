@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BASE_URL from '../api';
 
 export default function Appointments() {
   const [appointments, setAppointments] = useState([]);
@@ -8,18 +9,18 @@ export default function Appointments() {
   const [form, setForm] = useState({ patient_id: '', staff_id: '', date: '', time: '' });
 
   const fetchAll = () => {
-    fetch('http://127.0.0.1:3001/api/appointments')
+    fetch(`${BASE_URL}/api/appointments`)
       .then(res => res.json()).then(setAppointments);
-    fetch('http://127.0.0.1:3001/api/patients')
+    fetch(`${BASE_URL}/api/patients`)
       .then(res => res.json()).then(setPatients);
-    fetch('http://127.0.0.1:3001/api/staff')
+    fetch(`${BASE_URL}/api/staff`)
       .then(res => res.json()).then(setStaff);
   };
 
   useEffect(() => { fetchAll(); }, []);
 
   const handleSubmit = async () => {
-    const res = await fetch('http://127.0.0.1:3001/api/appointments', {
+    const res = await fetch(`${BASE_URL}/api/appointments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
@@ -34,7 +35,7 @@ export default function Appointments() {
   };
 
   const handleStatus = async (id, status) => {
-    await fetch(`http://127.0.0.1:3001/api/appointments/${id}`, {
+    await fetch(`${BASE_URL}/api/appointments/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ Status: status }),
@@ -44,7 +45,7 @@ export default function Appointments() {
 
   const handleDelete = async (id) => {
     if (!confirm('Delete this appointment?')) return;
-    await fetch(`http://127.0.0.1:3001/api/appointments/${id}`, { method: 'DELETE' });
+    await fetch(`${BASE_URL}/api/appointments/${id}`, { method: 'DELETE' });
     fetchAll();
   };
 

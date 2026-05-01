@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BASE_URL from '../api';
 
 export default function Admissions() {
   const [admissions, setAdmissions] = useState([]);
@@ -8,18 +9,18 @@ export default function Admissions() {
   const [form, setForm] = useState({ Patient_ID: '', Room_ID: '' });
 
   const fetchAll = () => {
-    fetch('http://127.0.0.1:3001/api/admissions')
+    fetch(`${BASE_URL}/api/admissions`)
       .then(res => res.json()).then(setAdmissions);
-    fetch('http://127.0.0.1:3001/api/patients')
+    fetch(`${BASE_URL}/api/patients`)
       .then(res => res.json()).then(setPatients);
-    fetch('http://127.0.0.1:3001/api/rooms')
+    fetch(`${BASE_URL}/api/rooms`)
       .then(res => res.json()).then(setRooms);
   };
 
   useEffect(() => { fetchAll(); }, []);
 
   const handleAdmit = async () => {
-    const res = await fetch('http://127.0.0.1:3001/api/admissions', {
+    const res = await fetch(`${BASE_URL}/api/admissions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

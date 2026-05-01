@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BASE_URL from '../api';
 
 export default function AuditLog() {
   const [logs, setLogs] = useState([]);
@@ -7,14 +8,14 @@ export default function AuditLog() {
 
   const fetchLogs = (patientId = '') => {
     const url = patientId
-      ? `http://127.0.0.1:3001/api/audit-log/${patientId}`
-      : 'http://127.0.0.1:3001/api/audit-log';
+      ? `${BASE_URL}/api/audit-log/${patientId}`
+      : `${BASE_URL}/api/audit-log`;
     fetch(url).then(res => res.json()).then(setLogs);
   };
 
   useEffect(() => {
     fetchLogs();
-    fetch('http://127.0.0.1:3001/api/patients')
+    fetch(`${BASE_URL}/api/patients`)
       .then(res => res.json()).then(setPatients);
   }, []);
 
