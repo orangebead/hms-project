@@ -17,4 +17,5 @@ app.use('/api/staff', require('./routes/staff'));
 app.use('/api/rooms', require('./routes/rooms'));
 app.use('/api/inventory', require('./routes/inventory'));
 
-app.listen(3001, () => console.log('Server running on port 3001'));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
